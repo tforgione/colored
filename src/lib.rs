@@ -74,6 +74,7 @@ pub trait Colorize {
     fn bright_purple(self) -> ColoredString;
     fn bright_cyan(self) -> ColoredString;
     fn bright_white(self) -> ColoredString;
+    fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
     fn color<S: Into<Color>>(self, color: S) -> ColoredString;
     // Background Colors
     fn on_black(self) -> ColoredString;
@@ -94,6 +95,7 @@ pub trait Colorize {
     fn on_bright_purple(self) -> ColoredString;
     fn on_bright_cyan(self) -> ColoredString;
     fn on_bright_white(self) -> ColoredString;
+    fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString;
     // Styles
     fn clear(self) -> ColoredString;
@@ -147,7 +149,7 @@ impl ColoredString {
                 res.push(';');
             }
 
-            res.push_str(bgcolor.to_bg_str());
+            res.push_str(&bgcolor.to_bg_str());
             has_wrote = true;
         }
 
@@ -156,7 +158,7 @@ impl ColoredString {
                 res.push(';');
             }
 
-            res.push_str(fgcolor.to_fg_str());
+            res.push_str(&fgcolor.to_fg_str());
         }
 
         res.push('m');
@@ -268,6 +270,9 @@ impl Colorize for ColoredString {
     def_color!(fgcolor: bright_purple => Color::BrightMagenta);
     def_color!(fgcolor: bright_cyan => Color::BrightCyan);
     def_color!(fgcolor: bright_white => Color::BrightWhite);
+    fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
+        self.color(Color::True(r, g, b))
+    }
 
     fn color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
@@ -305,7 +310,12 @@ impl Colorize for ColoredString {
     def_color!(bgcolor: on_bright_purple => Color::BrightMagenta);
     def_color!(bgcolor: on_bright_cyan => Color::BrightCyan);
     def_color!(bgcolor: on_bright_white => Color::BrightWhite);
-
+    fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
+        ColoredString {
+            bgcolor: Some(Color::True(r, g, b)),
+            ..self
+        }
+    }
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
             bgcolor: Some(color.into()),
@@ -389,6 +399,13 @@ impl<'a> Colorize for &'a str {
     def_str_color!(fgcolor: bright_purple => Color::BrightMagenta);
     def_str_color!(fgcolor: bright_cyan => Color::BrightCyan);
     def_str_color!(fgcolor: bright_white => Color::BrightWhite);
+    fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
+        ColoredString {
+            input: String::from(self),
+            fgcolor: Some(Color::True(r, g, b)),
+            ..ColoredString::default()
+        }
+    }
 
     fn color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
@@ -429,6 +446,13 @@ impl<'a> Colorize for &'a str {
     def_str_color!(bgcolor: on_bright_purple => Color::BrightMagenta);
     def_str_color!(bgcolor: on_bright_cyan => Color::BrightCyan);
     def_str_color!(bgcolor: on_bright_white => Color::BrightWhite);
+    fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
+        ColoredString {
+            input: String::from(self),
+            bgcolor: Some(Color::True(r, g, b)),
+            ..ColoredString::default()
+        }
+    }
 
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
@@ -437,6 +461,7 @@ impl<'a> Colorize for &'a str {
             ..ColoredString::default()
         }
     }
+
 
     fn clear(self) -> ColoredString {
         ColoredString {

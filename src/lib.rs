@@ -75,6 +75,7 @@ pub trait Colorize {
     fn bright_cyan(self) -> ColoredString;
     fn bright_white(self) -> ColoredString;
     fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
+    fn hex_color(self, color: u64) -> ColoredString;
     fn color<S: Into<Color>>(self, color: S) -> ColoredString;
     // Background Colors
     fn on_black(self) -> ColoredString;
@@ -96,6 +97,7 @@ pub trait Colorize {
     fn on_bright_cyan(self) -> ColoredString;
     fn on_bright_white(self) -> ColoredString;
     fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
+    fn on_hex_color(self, color: u64) -> ColoredString;
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString;
     // Styles
     fn clear(self) -> ColoredString;
@@ -274,6 +276,11 @@ impl Colorize for ColoredString {
         self.color(Color::True(r, g, b))
     }
 
+    fn hex_color(self, color: u64) -> ColoredString {
+        let (r, g, b) = hex_to_rgb(color);
+        self.color(Color::True(r, g, b))
+    }
+
     fn color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
             fgcolor: Some(color.into()),
@@ -316,6 +323,12 @@ impl Colorize for ColoredString {
             ..self
         }
     }
+
+    fn on_hex_color(self, color: u64) -> ColoredString {
+        let (r, g, b) = hex_to_rgb(color);
+        Self::on_true_color(self, r, g, b)
+    }
+
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
             bgcolor: Some(color.into()),
@@ -407,6 +420,15 @@ impl<'a> Colorize for &'a str {
         }
     }
 
+    fn hex_color(self, color: u64) -> ColoredString {
+        let (r, g, b) = hex_to_rgb(color);
+        ColoredString {
+            input: String::from(self),
+            fgcolor: Some(Color::True(r, g, b)),
+            ..ColoredString::default()
+        }
+    }
+
     fn color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
             fgcolor: Some(color.into()),
@@ -454,6 +476,11 @@ impl<'a> Colorize for &'a str {
         }
     }
 
+    fn on_hex_color(self, color: u64) -> ColoredString {
+        let (r, g, b) = hex_to_rgb(color);
+        Self::on_true_color(self, r, g, b)
+    }
+
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString {
         ColoredString {
             bgcolor: Some(color.into()),
@@ -461,7 +488,6 @@ impl<'a> Colorize for &'a str {
             ..ColoredString::default()
         }
     }
-
 
     fn clear(self) -> ColoredString {
         ColoredString {
@@ -498,6 +524,13 @@ impl fmt::Display for ColoredString {
         try!(f.write_str("\x1B[0m"));
         Ok(())
     }
+}
+
+fn hex_to_rgb(hex: u64) -> (u8, u8, u8) {
+    let r = hex >> 16 & 0x0000ff;
+    let g = hex >> 8 & 0x0000ff;
+    let b = hex & 0x0000ff;
+    (r as u8, g as u8, b as u8)
 }
 
 #[cfg(test)]

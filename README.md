@@ -29,14 +29,14 @@ Add this in your `Cargo.toml`:
 
 ```toml
 [dependencies]
-colored = "1.6"
+colored = "1.7"
 ```
 
 and add this to your `lib.rs` or `main.rs`:
 
 ```rust
-    extern crate colored;
-
+    extern crate colored; // not needed in Rust 2018
+    
     use colored::*;
 
     // test the example with `cargo run --example most_simple`
@@ -50,6 +50,7 @@ and add this to your `lib.rs` or `main.rs`:
 
 - Safe rust, easy to use, minimal dependencies, complete test suite
 - Respect the `CLICOLOR`/`CLICOLOR_FORCE` behavior (see [the specs](http://bixense.com/clicolors/))
+- Respect the `NO_COLOR` behavior (see [the specs](https://no-color.org/))
 - Works on Linux, MacOS, and Windows (Powershell)
 
 #### Colors:
@@ -94,7 +95,7 @@ As `Color` implements `FromStr`, `From<&str>`, and `From<String>`, you can easil
 "white string".color("zorglub");
 
 // the safer way via a Result
-let color_res = "zorglub".parse(); // <- this returns a Result<Color, ()>
+let color_res : Result<Color, ()> = "zorglub".parse();
 "red string".color(color_res.unwrap_or(Color::Red));
 ```
 
@@ -109,8 +110,8 @@ For example, you can do this in your `Cargo.toml` to disable color in tests:
 ```toml
 [features]
 # this effectively enable the feature `no-color` of colored when testing with
-# `cargo test --feature test`
-test = ["colored/no-color"]
+# `cargo test --feature dumb_terminal`
+dumb_terminal = ["colored/no-color"]
 ```
 
 You can use have even finer control by using the
@@ -150,3 +151,4 @@ In non legal terms it means that:
 - Alexis "Horgix" Chotard: [@horgix](https://github.com/horgix)
 - Keith Yeung: [@KiChjang](https://github.com/KiChjang)
 - Kyle Galloway: [@kylegalloway](https://github.com/kylegalloway)
+- Luke Hsiao: [@lukehsiao](https://github.com/lukehsiao)

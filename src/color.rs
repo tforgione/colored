@@ -20,6 +20,7 @@ pub enum Color {
     BrightMagenta,
     BrightCyan,
     BrightWhite,
+    Palette(u8),
     True(u8, u8, u8),
 }
 impl Color {
@@ -41,6 +42,7 @@ impl Color {
             Color::BrightMagenta => "95".to_owned(),
             Color::BrightCyan => "96".to_owned(),
             Color::BrightWhite => "97".to_owned(),
+            Color::Palette(code) => format!("38;5;{}", code),
             Color::True(r, g, b) => format!("38;2;{};{};{}", r, g, b),
         }
     }
@@ -63,6 +65,7 @@ impl Color {
             Color::BrightMagenta => "105".to_owned(),
             Color::BrightCyan => "106".to_owned(),
             Color::BrightWhite => "107".to_owned(),
+            Color::Palette(code) => format!("48;5;{}", code),
             Color::True(r, g, b) => format!("48;2;{};{};{}", r, g, b),
         }
     }

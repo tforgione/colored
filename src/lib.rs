@@ -74,6 +74,7 @@ pub trait Colorize {
     fn bright_purple(self) -> ColoredString;
     fn bright_cyan(self) -> ColoredString;
     fn bright_white(self) -> ColoredString;
+    fn palette(self, code: u8) -> ColoredString;
     fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
     fn hex_color(self, color: u64) -> ColoredString;
     fn color<S: Into<Color>>(self, color: S) -> ColoredString;
@@ -96,6 +97,7 @@ pub trait Colorize {
     fn on_bright_purple(self) -> ColoredString;
     fn on_bright_cyan(self) -> ColoredString;
     fn on_bright_white(self) -> ColoredString;
+    fn on_palette(self, code: u8) -> ColoredString;
     fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString;
     fn on_hex_color(self, color: u64) -> ColoredString;
     fn on_color<S: Into<Color>>(self, color: S) -> ColoredString;
@@ -272,6 +274,9 @@ impl Colorize for ColoredString {
     def_color!(fgcolor: bright_purple => Color::BrightMagenta);
     def_color!(fgcolor: bright_cyan => Color::BrightCyan);
     def_color!(fgcolor: bright_white => Color::BrightWhite);
+    fn palette(self, code: u8) -> ColoredString {
+        self.color(Color::Palette(code))
+    }
     fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
         self.color(Color::True(r, g, b))
     }
@@ -317,6 +322,13 @@ impl Colorize for ColoredString {
     def_color!(bgcolor: on_bright_purple => Color::BrightMagenta);
     def_color!(bgcolor: on_bright_cyan => Color::BrightCyan);
     def_color!(bgcolor: on_bright_white => Color::BrightWhite);
+    fn on_palette(self, code: u8) -> ColoredString {
+        ColoredString {
+            bgcolor: Some(Color::Palette(code)),
+            ..self
+        }
+    }
+
     fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
         ColoredString {
             bgcolor: Some(Color::True(r, g, b)),
@@ -412,6 +424,14 @@ impl<'a> Colorize for &'a str {
     def_str_color!(fgcolor: bright_purple => Color::BrightMagenta);
     def_str_color!(fgcolor: bright_cyan => Color::BrightCyan);
     def_str_color!(fgcolor: bright_white => Color::BrightWhite);
+    fn palette(self, code: u8) -> ColoredString {
+        ColoredString {
+            input: String::from(self),
+            fgcolor: Some(Color::Palette(code)),
+            ..ColoredString::default()
+        }
+    }
+
     fn true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
         ColoredString {
             input: String::from(self),
@@ -468,6 +488,14 @@ impl<'a> Colorize for &'a str {
     def_str_color!(bgcolor: on_bright_purple => Color::BrightMagenta);
     def_str_color!(bgcolor: on_bright_cyan => Color::BrightCyan);
     def_str_color!(bgcolor: on_bright_white => Color::BrightWhite);
+    fn on_palette(self, code: u8) -> ColoredString {
+        ColoredString {
+            input: String::from(self),
+            bgcolor: Some(Color::Palette(code)),
+            ..ColoredString::default()
+        }
+    }
+
     fn on_true_color(self, r: u8, g: u8, b: u8) -> ColoredString {
         ColoredString {
             input: String::from(self),

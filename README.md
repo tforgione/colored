@@ -1,7 +1,10 @@
-# Colored
+# ReColored
 
-[![Build
-Status](https://travis-ci.org/mackwic/colored.svg?branch=master)](https://travis-ci.org/mackwic/colored) [![Crates.io](https://img.shields.io/crates/v/colored.svg?maxAge=2592000)](https://crates.io/crates/colored) [![Crates.io](https://img.shields.io/crates/l/colored.svg?maxAge=2592000)](https://github.com/mackwic/colored/blob/master/LICENSE)
+**This is a fork of [colored](https://github.com/mackwic/colored/). It is named
+recolored in order to be usable on crates.io.**
+
+The following is the original README, if you want to use this fork, you will
+need to replace `colored` by `recolored`.
 
 Coloring terminal so simple, you already know how to do it!
 
@@ -38,9 +41,9 @@ colored = "1.9"
 and add this to your `lib.rs` or `main.rs`:
 
 ```rust
-    extern crate colored; // not needed in Rust 2018
+    extern crate recolored; // not needed in Rust 2018
 
-    use colored::*;
+    use recolored::*;
 
     // test the example with `cargo run --example most_simple`
     fn main() {

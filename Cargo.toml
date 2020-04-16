@@ -1,11 +1,11 @@
 [package]
-name = "colored"
-description = "The most simple way to add colors in your terminal"
+name = "recolored"
+description = "A fork of colored: the most simple way to add colors in your terminal"
 version = "1.9.3"
-authors = ["Thomas Wickham <mackwic@gmail.com>"]
+authors = ["Thomas Wickham <mackwic@gmail.com>, Thomas Forgione <thomas@forgione.fr>"]
 license = "MPL-2.0"
-homepage = "https://github.com/mackwic/colored"
-repository = "https://github.com/mackwic/colored"
+homepage = "https://github.com/tforgione/colored"
+repository = "https://github.com/tforgione/colored"
 readme = "README.md"
 keywords = ["color", "string", "term", "ansi_term", "term-painter"]
 

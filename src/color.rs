@@ -3,6 +3,7 @@ use std::str::FromStr;
 
 /// The 8 standard colors.
 #[derive(Clone, Copy, Debug, PartialEq, Eq)]
+#[allow(missing_docs)]
 pub enum Color {
     Black,
     Red,
@@ -23,6 +24,8 @@ pub enum Color {
     Palette(u8),
     True(u8, u8, u8),
 }
+
+#[allow(missing_docs)]
 impl Color {
     pub fn to_fg_str(&self) -> String {
         match *self {
@@ -96,6 +99,7 @@ impl FromStr for Color {
             "yellow" => Ok(Color::Yellow),
             "blue" => Ok(Color::Blue),
             "magenta" => Ok(Color::Magenta),
+            "purple" => Ok(Color::Magenta),
             "cyan" => Ok(Color::Cyan),
             "white" => Ok(Color::White),
             "bright black" => Ok(Color::BrightBlack),
@@ -138,6 +142,7 @@ mod tests {
             yellow: "yellow" => Color::Yellow,
             blue: "blue" => Color::Blue,
             magenta: "magenta" => Color::Magenta,
+            purple: "purple" => Color::Magenta,
             cyan: "cyan" => Color::Cyan,
             white: "white" => Color::White,
             brightblack: "bright black" => Color::BrightBlack,
@@ -210,6 +215,5 @@ mod tests {
             let color: Result<Color, ()> = "bloublou".parse();
             assert_eq!(Err(()), color)
         }
-
     }
 }

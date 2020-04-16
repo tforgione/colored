@@ -6,6 +6,8 @@ recolored in order to be usable on crates.io.**
 The following is the original README, if you want to use this fork, you will
 need to replace `colored` by `recolored`.
 
+---
+
 Coloring terminal so simple, you already know how to do it!
 
 ```rust

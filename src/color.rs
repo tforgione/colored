@@ -1,3 +1,4 @@
+use std::borrow::Cow;
 use std::convert::From;
 use std::str::FromStr;
 
@@ -27,49 +28,49 @@ pub enum Color {
 
 #[allow(missing_docs)]
 impl Color {
-    pub fn to_fg_str(&self) -> String {
+    pub fn to_fg_str(&self) -> Cow<str> {
         match *self {
-            Color::Black => "30".to_owned(),
-            Color::Red => "31".to_owned(),
-            Color::Green => "32".to_owned(),
-            Color::Yellow => "33".to_owned(),
-            Color::Blue => "34".to_owned(),
-            Color::Magenta => "35".to_owned(),
-            Color::Cyan => "36".to_owned(),
-            Color::White => "37".to_owned(),
-            Color::BrightBlack => "90".to_owned(),
-            Color::BrightRed => "91".to_owned(),
-            Color::BrightGreen => "92".to_owned(),
-            Color::BrightYellow => "93".to_owned(),
-            Color::BrightBlue => "94".to_owned(),
-            Color::BrightMagenta => "95".to_owned(),
-            Color::BrightCyan => "96".to_owned(),
-            Color::BrightWhite => "97".to_owned(),
-            Color::Palette(code) => format!("38;5;{}", code),
-            Color::True(r, g, b) => format!("38;2;{};{};{}", r, g, b),
+            Color::Black => Cow::from("30"),
+            Color::Red => Cow::from("31"),
+            Color::Green => Cow::from("32"),
+            Color::Yellow => Cow::from("33"),
+            Color::Blue => Cow::from("34"),
+            Color::Magenta => Cow::from("35"),
+            Color::Cyan => Cow::from("36"),
+            Color::White => Cow::from("37"),
+            Color::BrightBlack => Cow::from("90"),
+            Color::BrightRed => Cow::from("91"),
+            Color::BrightGreen => Cow::from("92"),
+            Color::BrightYellow => Cow::from("93"),
+            Color::BrightBlue => Cow::from("94"),
+            Color::BrightMagenta => Cow::from("95"),
+            Color::BrightCyan => Cow::from("96"),
+            Color::BrightWhite => Cow::from("97"),
+            Color::Palette(code) => Cow::from(format!("38;5;{}", code)),
+            Color::True(r, g, b) => Cow::from(format!("38;2;{};{};{}", r, g, b)),
         }
     }
 
-    pub fn to_bg_str(&self) -> String {
+    pub fn to_bg_str(&self) -> Cow<str> {
         match *self {
-            Color::Black => "40".to_owned(),
-            Color::Red => "41".to_owned(),
-            Color::Green => "42".to_owned(),
-            Color::Yellow => "43".to_owned(),
-            Color::Blue => "44".to_owned(),
-            Color::Magenta => "45".to_owned(),
-            Color::Cyan => "46".to_owned(),
-            Color::White => "47".to_owned(),
-            Color::BrightBlack => "100".to_owned(),
-            Color::BrightRed => "101".to_owned(),
-            Color::BrightGreen => "102".to_owned(),
-            Color::BrightYellow => "103".to_owned(),
-            Color::BrightBlue => "104".to_owned(),
-            Color::BrightMagenta => "105".to_owned(),
-            Color::BrightCyan => "106".to_owned(),
-            Color::BrightWhite => "107".to_owned(),
-            Color::Palette(code) => format!("48;5;{}", code),
-            Color::True(r, g, b) => format!("48;2;{};{};{}", r, g, b),
+            Color::Black => Cow::from("40"),
+            Color::Red => Cow::from("41"),
+            Color::Green => Cow::from("42"),
+            Color::Yellow => Cow::from("43"),
+            Color::Blue => Cow::from("44"),
+            Color::Magenta => Cow::from("45"),
+            Color::Cyan => Cow::from("46"),
+            Color::White => Cow::from("47"),
+            Color::BrightBlack => Cow::from("100"),
+            Color::BrightRed => Cow::from("101"),
+            Color::BrightGreen => Cow::from("102"),
+            Color::BrightYellow => Cow::from("103"),
+            Color::BrightBlue => Cow::from("104"),
+            Color::BrightMagenta => Cow::from("105"),
+            Color::BrightCyan => Cow::from("106"),
+            Color::BrightWhite => Cow::from("107"),
+            Color::Palette(code) => Cow::from(format!("48;5;{}", code)),
+            Color::True(r, g, b) => Cow::from(format!("48;2;{};{};{}", r, g, b)),
         }
     }
 }
